@@ -1,0 +1,42 @@
+# Brain Tumor Classifier Configuration
+
+data:
+  raw_dir: 'data/raw'
+  processed_dir: 'data/processed'
+  splits_dir: 'data/splits'
+  patch_size: 64  # 64x64x64 or 96x96x96
+  stride: 32
+  modalities: ['t1', 't1ce', 't2', 'flair']
+  normalize: true
+  denoise: true
+
+training:
+  batch_size: 8
+  epochs: 100
+  learning_rate: 0.001
+  validation_split: 0.15
+  test_split: 0.15
+  shuffle: true
+  augment: true
+
+augmentation:
+  rotation_angles: [10, 20, 30]
+  flip_axes: [0, 1, 2]
+  zoom_range: [0.8, 1.2]
+
+model:
+  architecture: 'unet3d'
+  input_channels: 4
+  output_classes: 4  # Background + 3 tumor classes
+  depth: 4
+  filters_base: 32
+
+training_device:
+  backend: 'tensorflow'
+  use_metal: true  # Mac M2 acceleration
+  mixed_precision: false
+
+paths:
+  models_dir: 'models'
+  logs_dir: 'logs'
+  results_dir: 'results'
